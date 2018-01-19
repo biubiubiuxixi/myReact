@@ -5,6 +5,7 @@ import './App.css';
 import List from './List';
 import BasicRoute from './BasicRoute';
 import RedirectRoute from './RedirectRoute';
+import CustomRoute from './CustomRoute';
 
 var list3={
   name: '',
@@ -117,6 +118,7 @@ class App extends Component {
         </div>
         <BasicRoute />
         <RedirectRoute />
+        <CustomRoute />
       </div>
     );
   }
