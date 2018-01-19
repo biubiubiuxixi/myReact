@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import List from './List';
 import BasicRoute from './BasicRoute';
+import RedirectRoute from './RedirectRoute';
 
 var list3={
   name: '',
@@ -115,6 +116,7 @@ class App extends Component {
           张轩林是傻子
         </div>
         <BasicRoute />
+        <RedirectRoute />
       </div>
     );
   }
