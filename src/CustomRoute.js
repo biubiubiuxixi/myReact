@@ -2,7 +2,7 @@ import React from 'react';
 import { 
     BrowserRouter as  Router,
     Route,
-    Link
+    NavLink
 } from 'react-router-dom';
 
 const CustomRoute = () => (
@@ -20,7 +20,11 @@ const CustomRoute = () => (
 const ActiveIcon = ({label, to, activeOnlyExect}) => (
     <Route path={to} exact={activeOnlyExect} children={({match}) => (
         <div>
-            {match ? '>' : ''}<Link to={to}>{label}</Link>
+            {match ? '>' : ''}
+            <NavLink activeStyle={{
+              fontWeight: 'bold',
+              color: 'red'
+            }} to={to}>{label}</NavLink>
         </div>
     )} />
 );

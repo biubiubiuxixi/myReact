@@ -22,6 +22,9 @@ class App extends Component {
       time: '',
       content: '',
       status: false,
+      list: [],
+      flag: 0,
+      num: 0,
     };
   }
   componentDidMount(){
@@ -53,9 +56,16 @@ class App extends Component {
     this.setState({
       status: true,
     });
-    console.log(this.state.name);
-    console.log(this.state.time);
-    console.log(this.state.content);
+    if(this.state.flag === 0) {
+      this.setState((prevState) => ({
+        list: prevState.list.concat([list3])
+      }));
+    } else {
+      this.state.list.splice(this.state.num, 1, list3);
+      this.setState({
+        flag: 0,
+      });
+    }
   }
   handleChange = (e) => {
     let formName = e.target.name;
@@ -64,20 +74,34 @@ class App extends Component {
       [formName]: value,
     });
   }
+
+  deleteList = (num) => {
+    this.state.list.splice(num, 1);
+  }
+
+  edit = (num) => {
+    const list = this.state.list;
+    this.setState({
+      name: list[num].name,
+      time: list[num].time,
+      content: list[num].content,
+      flag: 1,
+      num,
+    })
+  }
   
   render() {
-    const list1 = {
-      name: '小明',
-      time: '2013-10-22',
-      content: 'daaa接收的數據等哈子小姐找直到哈哈是對外我王琪琪 接收的哈薩克單號是的哈撒大聲地 加上大賽開打時看到哈施工隊卡仕達燒烤蛋糕卡!!!',
-    };
-    const list2 = {
-      name: '小希希',
-      time: '2012-10-11',
-      content: '我就看看不说话', //+ this.state.count,
-    };
-    const numbers = [1,2,3];
-    const doubles = numbers.map((i) => i*2);
+    // const list1 = {
+    //   name: '小明',
+    //   time: '2013-10-22',
+    //   content: 'daaa接收的數據等哈子小姐找直到哈哈是對外我王琪琪 接收的哈薩克單號是的哈撒大聲地 加上大賽開打時看到哈施工隊卡仕達燒烤蛋糕卡!!!',
+    // };
+    // const list2 = {
+    //   name: '小希希',
+    //   time: '2012-10-11',
+    //   content: '我就看看不说话', //+ this.state.count,
+    // };
+    const { list, name, time, content } = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -88,26 +112,27 @@ class App extends Component {
           {this.state.date}
         </div>
         <div className='app-back'>
-          <List list={list1} />
+          {/* <List list={list1} />
           <List list={list2} />
-          {this.state.status&&<List list={list3} />}
-        </div>
-        <div>
-          这是原数组中的数字：{numbers};
-          这是double之后的数字：{doubles};
+          {this.state.status&&<List list={list3} />} */}
+          {
+            list.map((i, index) => (
+              <List list={i} num={index} key={index.toString()} deleteList={this.deleteList} edit={this.edit} />
+            ))
+          }
         </div>
         <form onSubmit={this.handleSumit} className='formCss'>
           <div className='formDiv'>
             <label>姓名:</label>
-            <input onChange={this.handleChange} name='name' />
+            <input value={name} onChange={this.handleChange} name='name' />
           </div>
           <div className='formDiv'>
             <label>时间:</label>
-            <input type='date' onChange={this.handleChange} name='time' />
+            <input value={time} type='date' onChange={this.handleChange} name='time' />
           </div>
           <div className='formDiv'>
             <label>内容:</label>
-            <textarea onChange={this.handleChange} name='content'></textarea>
+            <textarea value={content} onChange={this.handleChange} name='content'></textarea>
           </div>
           <div className='formDiv'>
             <input type='submit' value='提交' />
